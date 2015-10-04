@@ -21,6 +21,32 @@
 <link rel="stylesheet" media="all" href="https://djrbatmgo1l7z.cloudfront.net/assets/vendor-f6c14335840db094f92800183f6869aa5e1989dbf06d03c426fecd02a90cd6ee.css" />
 <link rel="stylesheet" media="all" href="https://djrbatmgo1l7z.cloudfront.net/assets/application-cc05a2d944a3268066b49eaf459a6f43d9e560156d0f26e1d8ea7f21af529896.css" />
 
+<style>
+.parallax-container {
+  position: relative;
+  overflow: hidden;
+  height: 500px; }
+
+.parallax {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1; }
+  .parallax img {
+    display: none;
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    min-width: 100%;
+    min-height: 100%;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+    transform: translateX(-50%); }
+
+</style>
+
   <script src="//www.google-analytics.com/cx/api.js?experiment=lM69hmX1RpOoeggyrwnMRw"></script>
   <script>
     if (typeof cxApi !== "undefined") {
@@ -63,6 +89,7 @@ window._qtd = window._qtd || []
 <!-- QUBIT OPEN TAG -->
 <script src='//d3c3cq33003psk.cloudfront.net/opentag-94657-1112825.js' async defer></script>
 <!-- END QUBIT OPEN TAG -->
+
 
 
 </head>
@@ -302,17 +329,41 @@ $0.00
 </div>
 </div>
 
+<div class="parallax-container">
+   <div class="parallax">
+     <img  src="main_image.jpg"  />
+
+   </div>
+
+<div style="align-items: center;display: flex; height: 55vh;justify-content: center;margin-left: auto !important;margin-right: auto !important;min-height: 500px;">
+  <div style="color:white;text-align:center" class="ui text container">
+    <h1 style="font-weight:bold;font-size:4em;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;" itemprop="name">
+       Our Leathers </h1>
+       <p><strong>It starts with the Hide.</strong></p>
+       <p>For wallets, there is no other material that compares to leather. It has strength, durability and resilience, while also managing to be supple and bend to your needs. Yet, there are many kinds of leather, and most of them can't really deliver a great wallet.</p>
+       <p>At Bellroy, we use three main types of leathers, each designed to maximize the intended use of that particular style. So, whether you want a leather that will look newer for longer, or one that will develop a rich patina with wear – we've got you covered ...</p>
+
+  </div>
+</div>
+
+ </div>
+
 <div class='container main'>
+
+<!--
 <div class='row bel-normal'>
 <div class='col-xs-12 col-sm-5 col-md-6'>
+
 <img class="img-responsive" src="https://djrbatmgo1l7z.cloudfront.net/assets/leather_care/leathers_workshop_image-4b73ebdda99e04490c6dac696e81fb8086b167b53e0d350a96ea98771a3b091c.jpg" alt="Leathers workshop image 4b73ebdda99e04490c6dac696e81fb8086b167b53e0d350a96ea98771a3b091c" />
 </div>
 <div class='col-xs-12 col-sm-7 col-md-6'>
 <h1>Our Leathers</h1>
 <p><strong>It starts with the Hide.</strong></p>
-<p>For wallets, there is no other material that compares to leather. It has strength, durability and resilience, while also managing to be supple and bend to your needs.  Yet, there are many kinds of leather, and most of them can't really deliver a great wallet.</p>
+<p>For wallets, there is no other material that compares to leather. It has strength, durability and resilience, while also managing to be supple and bend to your needs. Yet, there are many kinds of leather, and most of them can't really deliver a great wallet.</p>
 <p>At Bellroy, we use three main types of leathers, each designed to maximize the intended use of that particular style. So, whether you want a leather that will look newer for longer, or one that will develop a rich patina with wear – we've got you covered ...</p>
 </div>
+-->
+
 </div>
 <div class='row bel-normal'>
 <div class='col-xs-12'>
@@ -681,7 +732,68 @@ SITE BY:
 
 <script src="https://djrbatmgo1l7z.cloudfront.net/assets/application-45fe57283221cfcac0a694149afdcf2857b3d21fa9ffc0e51f5c42536cab02eb.js"></script>
 
+<script>
+(function ($) {
+
+    $.fn.parallax = function () {
+      var window_width = $(window).width();
+      // Parallax Scripts
+      return this.each(function(i) {
+        var $this = $(this);
+        $this.addClass('parallax');
+
+        function updateParallax(initial) {
+          var container_height;
+          if (window_width < 601) {
+            container_height = ($this.height() > 0) ? $this.height() : $this.children("img").height();
+          }
+          else {
+            container_height = ($this.height() > 0) ? $this.height() : 500;
+          }
+          var $img = $this.children("img").first();
+          var img_height = $img.height();
+          var parallax_dist = img_height - container_height;
+          var bottom = $this.offset().top + container_height;
+          var top = $this.offset().top;
+          var scrollTop = $(window).scrollTop();
+          var windowHeight = window.innerHeight;
+          var windowBottom = scrollTop + windowHeight;
+          var percentScrolled = (windowBottom - top) / (container_height + windowHeight);
+          var parallax = Math.round((parallax_dist * percentScrolled));
+
+          if (initial) {
+            $img.css('display', 'block');
+          }
+          if ((bottom > scrollTop) && (top < (scrollTop + windowHeight))) {
+            $img.css('transform', "translate3D(-50%," + parallax + "px, 0)");
+          }
+
+        }
+
+        // Wait for image load
+        $this.children("img").one("load", function() {
+          updateParallax(true);
+        }).each(function() {
+          if(this.complete) $(this).load();
+        });
+
+        $(window).scroll(function() {
+          window_width = $(window).width();
+          updateParallax(false);
+        });
+
+        $(window).resize(function() {
+          window_width = $(window).width();
+          updateParallax(false);
+        });
+
+      });
+
+    };
+}( jQuery ));;
+
+$('.parallax').parallax();
+</script>
+
 </body>
 </html>
-
-
